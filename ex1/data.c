@@ -8,21 +8,23 @@ bool littleEndian() {
 
 Data *makeData(void *dat, int bytes) {
     Data *d = (Data *) malloc(sizeof(Data));
-    d->arr = dat;
+    d->arr = malloc(bytes);
+    memcpy(d->arr, dat, bytes);
     d->bytes = bytes;
     return d;
 }
 
 void *writeData(Data *d) {
-    void *dat = malloc(d->bytes);
-    memcpy(dat, d->arr, d->bytes);
-    return dat;
+    void *buffer = calloc(d->bytes + sizeof(int), 1);
+    memcpy(buffer, &d->bytes, sizeof(int));
+    memcpy(buffer + sizeof(int), d->arr, d->bytes);
+    return buffer;
 }
 
 Data *readData(void *buffer) {
     Data *d = (Data *) malloc(sizeof(Data));
     memcpy(&d->bytes, buffer, sizeof(int));
-    d->arr = malloc(d->bytes);
+    d->arr = calloc(d->bytes, 1);
     memcpy(d->arr, buffer + sizeof(int), d->bytes);
     return d;
 }
