@@ -1,43 +1,40 @@
 #include "client.h"
 
 Client *connectAsClient(char *ip) {
-	Client *c = malloc(sizeof(*c));
-	struct sockaddr_in *serverAddr;
-	if (c == NULL) {
+	Client *client = malloc(sizeof(Client));
+
+	if (client == NULL) {
         return (NULL);
     }
-	c->tv.tv_sec = 0;
-	c->tv.tv_usec = 0;
+	client->sock = socket(AF_INET, SOCK_STREAM, 0);
+	client->tv.tv_sec = 0;
+	client->tv.tv_usec = 0;
 
-	c->sock= socket(AF_INET, SOCK_STREAM, 0);
+	struct sockaddr_in addr;
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(8080);
+	addr.sin_addr.s_addr = inet_addr(ip);
 
-    serverAddr->sin_addr.s_addr = inet_addr(ip);
-    serverAddr->sin_family = AF_INET;
-    serverAddr->sin_port = htons(8080);
-	
-	if (connect(c->sock, (struct sockaddr *)serverAddr, sizeof(*serverAddr)) < 0) {
-		printf("Connection failed\n");
+	if (connect(client->sock, (struct sockaddr *)&addr, sizeof(addr)) != 0) {
+		printf("Connection to connect to %s\n", ip);
 		return (NULL);
 	}
-	return (c);
+	printf("Connection to the server\n");
+	return (client);
 }
 
 int receiveData(Client *c, void *buffer) {
 	fd_set readfds;
-	int res = 0;
-	int activity = 0;
-
 	FD_ZERO(&readfds);
 	FD_SET(c->sock, &readfds);
-	FD_SET(STDIN_FILENO, &readfds);
-	activity = select(c->sock + 1, &readfds, NULL, NULL, NULL);
-	if (activity >= 0) {
-		if (c->sock > 0 && FD_ISSET(c->sock, &readfds)) {
-			res = read(c->sock, buffer, BUFF);
-			if (res == 1) {
-				return (-1);
-			}
-		}
+	int activity = select(c->sock + 1, &readfds, NULL, NULL, &c->tv);
+	if (activity < 0) {
+		printf("Error selecting socket");
+		return (-1);
 	}
-	return (res);
+	else if (activity > 0) {
+		int size = read(c->sock, buffer, BUFF);
+		return (size);
+	}
+	return (0);
 }

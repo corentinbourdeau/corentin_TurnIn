@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <curses.h>
 #include <termios.h>
+#include <pthread.h>
 
 typedef struct Data {
 	int bytes;
@@ -13,3 +14,10 @@ typedef struct Data {
 } Data;
 
 extern bool runningMainThread;
+bool runningMainThread = true;
+
+bool littleEndian();
+Data *makeData(void *dat, int bytes);
+void *writeData(Data *d);
+Data *readData(void *buffer);
+void freeData(Data *d);

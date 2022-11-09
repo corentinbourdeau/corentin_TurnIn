@@ -1,30 +1,60 @@
+#define BUFF 1024
 #include "inputThread.h"
-#include "data.c"
 
-// Receives a shared buffer with a pthread_mutex_t stored in it.  Pull the pthread_mutex_t out and store it. Test your code to make sure that this lock is properly connected to the pthread_mutex_t being used in main.
-// 	buffer is shared between this thread and the main thread. In a loop have this function take in user input and stores it in a buffer, when the user hits enter take in the string from the input buffer and copy it into the shared buffer via a Data struct. The main thread should then pick up that there is data in the buffer, and unpack it to display the string the user typed in.
-// 	If the user hits the escape key have the program end. Hint take in the user input charavter at a time, rather than line by line.
+BuffLock *makeBuffLock() {
+    BuffLock *result = malloc(sizeof (BuffLock));
+    result->buffer = malloc(BUFF);
+    result->lock = malloc(sizeof(pthread_mutex_t));
+    pthread_mutex_init(result->lock, NULL);
+
+    return result;
+}
+
+void freeBuffLock(BuffLock *bl) {
+    free(bl->buffer);
+    free(bl->lock);
+}
+
+void *flipEndian(void *buff, int size) {
+    char *p = malloc(size);
+    for (int i = 0; i < size; i++) {
+        ((char *) p)[i] = ((char *) buff)[size - i - 1];
+    }
+    return p;
+}
+
 void *inputThread(void *buffer) {
-    pthread_mutex_t *lock = *(pthread_mutex_t**)buffer;
-    char *inputBuffer = (char*)buffer + sizeof(pthread_mutex_t);
-    bool running = true;
-    while (running) {
-        if (pthread_mutex_trylock(lock) == 0) {
-            char c = getchar();
-            if (c == '\n') {
-                Data *d = makeData(inputBuffer, strlen(inputBuffer));
-                void *dataBuffer = writeData(d);
+    BuffLock *buffLock = buffer;
+
+    char *result = malloc(BUFF);
+    int index = 0;
+    int currentChar;
+
+    while (runningMainThread) {
+        currentChar = getchar();
+        if (currentChar == 27) {
+            runningMainThread = false;
+            break;
+        } else if (currentChar == 10) {
+            if (pthread_mutex_lock(buffLock->lock) == 0) {
+                Data *d = makeData(result, index);
+                void *data = writeData(d);
+
+                if (littleEndian()) {
+                    flipEndian(data, index);
+                }
+
+                memcpy(buffLock->buffer, data, index + sizeof(int));
+                memset(result, 0, BUFF);
+                index = 0;
+                free(data);
                 freeData(d);
-                memcpy(inputBuffer, dataBuffer, d->bytes + sizeof(int));
-                free(dataBuffer);
-                memset(inputBuffer, 0, BUFF);
-            } else if (c == 27) {
-                running = false;
-            } else {
-                strncat(inputBuffer, &c, 1);
+
+                pthread_mutex_unlock(buffLock->lock);
             }
-            pthread_mutex_unlock(lock);
+        } else if (currentChar != -1) {
+            result[index] = currentChar;
+            index++;
         }
     }
-    pthread_exit(0);
 }

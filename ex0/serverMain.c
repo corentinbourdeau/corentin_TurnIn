@@ -13,9 +13,9 @@ int main() {
     if (s > 0) {
         bool runningServer = true;
         char* buffer = (char*)calloc(sizeof(char), BUFF + 1);
-        int gotData = 0;
+        int gotData;
         while (runningServer) {
-            gotData = serverSendReceive(s, buffer);
+            serverSendReceive(s, buffer, &gotData);
             if (gotData != 0) {
                 printf("received %i\n", *(int*)buffer);
                 num += *(int*)buffer;
