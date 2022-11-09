@@ -7,26 +7,21 @@ bool littleEndian() {
         uint32_t i;
         char c[4];
     } e = { 0x01000000 };
-
     return e.c[0] ? false : true;
 }
 
 Data *makeData(void *dat, int bytes) {
     Data *d = malloc(sizeof(Data));
-
     d->bytes = bytes;
     d->arr = malloc(bytes);
     memcpy(d->arr, dat, bytes);
-
     return d;
 }
 
 void *writeData(Data *d) {
     void *buffer = malloc(d->bytes + sizeof(int));
-
     memcpy(buffer, &d->bytes, sizeof (int));
     memcpy(buffer + sizeof (int), d->arr, d->bytes);
-
     return buffer;
 }
 

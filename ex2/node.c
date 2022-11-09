@@ -50,8 +50,7 @@ void *runClient(void *buff) {
     struct sockaddr_in serv_addr;
 
     memset(recvBuff, '0',sizeof(recvBuff));
-    if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
-    {
+    if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         printf("\n Error : Could not create socket \n");
         return 1;
     }
@@ -61,8 +60,7 @@ void *runClient(void *buff) {
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(5000);
 
-    if(inet_pton(AF_INET, buff, &serv_addr.sin_addr)<=0)
-    {
+    if(inet_pton(AF_INET, buff, &serv_addr.sin_addr)<=0) {
         printf("\n inet_pton error occured");
         return 1;
     } else {
@@ -78,10 +76,9 @@ void processString(void* buff, bool onServer) {
     }
 }
 
-// This function takes in the whatever data is on buff (received from user input) and if there is a local server running it send it to its remote clients, if there is a local client connected to a remote server it sends it to that server
 void sendInput(char *buff) {
 }
 
 void welcomeText() {
-    printf("Welcome");
+    printf("Welcome to the node!\n");
 }

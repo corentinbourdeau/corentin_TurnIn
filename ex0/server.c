@@ -62,8 +62,7 @@ void serverSendReceive(Server *s, void *buffer, int *gotData) {
     if (FD_ISSET(s->sock, &readfds)) {
         if ((new_sock = accept(s->sock, (struct sockaddr *)&s->addr, (socklen_t *)&addrlen)) < 0) {
             printf("accept failed\n");
-        }
-        else {
+        } else {
             printf("New connection, socket fd is %d, ip is : %s, port : %d\n", new_sock, inet_ntoa(s->addr.sin_addr), ntohs(s->addr.sin_port));
             for (int i = 0; i < s->maxClients; i++) {
                 if (s->clientSocks[i] == 0) {

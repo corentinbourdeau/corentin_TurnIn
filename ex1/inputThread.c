@@ -6,7 +6,6 @@ BuffLock *makeBuffLock() {
     result->buffer = malloc(BUFF);
     result->lock = malloc(sizeof(pthread_mutex_t));
     pthread_mutex_init(result->lock, NULL);
-
     return result;
 }
 
@@ -25,7 +24,6 @@ void *flipEndian(void *buff, int size) {
 
 void *inputThread(void *buffer) {
     BuffLock *buffLock = buffer;
-
     char *result = malloc(BUFF);
     int index = 0;
     int currentChar;
@@ -39,11 +37,9 @@ void *inputThread(void *buffer) {
             if (pthread_mutex_lock(buffLock->lock) == 0) {
                 Data *d = makeData(result, index);
                 void *data = writeData(d);
-
                 if (littleEndian()) {
                     flipEndian(data, index);
                 }
-
                 memcpy(buffLock->buffer, data, index + sizeof(int));
                 memset(result, 0, BUFF);
                 index = 0;
