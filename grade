@@ -1,0 +1,15 @@
+ex0 - serverClient
+	compiles: yes
+	works: yes
+	runtime-errors: use of uninitialised vlaue amd memory leaks
+	notes:
+ex1 - dataThread
+	compiles: yes
+	works: yes
+	runtime-errors: use of uninitialised vlaue amd memory leaks
+	notes:
+ex2 - p2p
+	compiles: yes
+	works: no
+	runtime-errors:
+	notes:
