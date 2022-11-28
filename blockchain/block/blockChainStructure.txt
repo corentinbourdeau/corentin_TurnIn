@@ -1,0 +1,79 @@
+﻿Blockchain Stucture
+	Blockchains are a data structure similar to a linked list. Each block on the chain contains a hash of the previous block on the chain, as well as a hash of its own data. This allows us to determine if a block was changed in the chain, by hashing a block and checking with the stored hash in its successor. 
+	You will use provided SHA256 hashing function to hash and validate your blocks. You will implement a proof of work function (although these are not used in all blockchains). POW functions are used to make sure that it takes time to mine blocks and thus is harder. This is a way to prevent malicious nodes from spreading false blocks over a network by bottle necking them with larger processing times.
+	Ultimately when a block is mined it will be broadcast as data to each node in a connected network, those nodes will then validate the new block with their local chain and broadcast the new block they validated.
+For this Assignment you will be implementing the structure and some of the essential features of a blockchain. 	You will be required to implement 3 structs and 8 functions. A main.c and Makefile will be provided as well as sample output. 
+	You may structure your files however you want, and use as many helper functions as you deem necessary. You may change the Makefile as you see fit. Your Makefile and my main.c will be used to perform tests on your code. The executable created musst be called  block.
+	You will turn in a folder with your main.c, Makefile, and any other files you create. The structure of your .c and .h files will be calculated in your grade. Remember using good structure is important, functions should be modular and perform singular tasks. Many of the assigned functions can easily be broken down into smaller modular functions.
+
+Available Headers
+<stdio.h>
+<memory.h>
+<string,h>
+<stdbool.h>
+“sha.h”
+“data.h”
+
+Available Functions
+	data.h
+		bool littleEndian();
+		Data *makeData(void *dat, int bytes);
+		void *writeData(Data *d);
+		Data *readData(void *buffer);
+		void freeData(Data *d);
+	sha256.h
+		void sha256Hash(void *data, BYTE *buffer, int byteSize);
+			read byteSize bytes from data and hashes it, storing the hashed data into buffer.
+Your Structs
+//our blockchain will be data agnostic, allowing it to have more modular use in the future for whatever type of data we want to put in it
+struct Data {
+	void * arr; 	// data being held 
+	int byteSize; 	//size of data
+}
+
+struct Block {
+	int index;
+	// array holding the hash off the previous block
+	BYTE preHash[SHA256_BLOCK_SIZE]; 	//macros provided in header
+	//  array holding hash of data within block
+	BYTE dataHash[SHA256_BLOCK_SIZE];
+	Data *data; 	// pointer to data stored in this block
+	int nonce; 	// int representing the proof of work validating this block
+	time_t timestamp
+	struct Block *next; 	// next block in the chain
+}
+
+struct Blockchain {
+	Block * base; 		//genesis block of the chain, unchanged once chain is initialized
+	Block *cur;		// the current top of the chain, used for addition of new blocks
+	int len;			// the number of blocks in the chain
+}
+
+
+Your Functions
+Block *makeBlock(data *d, Block *pre);
+	This is where we create a block and do the proof of work algorithm. For the creation of single block we hash the previous block and store it in this new block for later validation. For the genesis block we hash some arbitrary data and store that. Then we fill up the new block struct (everything except the dataHash) start its nonce at 0, we increment the nonce until the hash result satisfies our proof of work condition. For this function I made 2 helper functions hashBlock(Block *bm BYTE *buff) and hashBlockData(Block *b, BYTE *buff). hashBlock hashes the whole block and stores it in the buff. hashBlockData hashes a block without its dataHash. hashBlock is used to generate the preHash and hashBlockData is used to generate the dataHash.
+
+Blockchain *makeBlockchain();
+	creates struct and initializes the chain with genesis block
+
+bool addBlock(Blockchain *bc, Block *b);
+	When we receive a block to add to our chain we  must first validate it. Return false if Block is not valid, if Block is valid add it to the chain, and update the chain’s cur value,then return true.
+
+bool validateChain(Blockchain *bc);
+	In this function you go through the chain and check a block to make sure its preHash matches the hashed value of the previous block. You also check to make sure that the block’s dataHash matches a newly computed hash of the block and its data.
+
+void printBlock(Block *b);
+	Pritns out the member variables of the block struct. In this assignment print out the data as an integer.
+
+void printChain(Blockchain *bc, , void (*printFunc)(Block*));
+	prints the blocks of the chain. The printFunc is a separate function that prints out he block data. It is sent as parameter so in the future when we have blocks with other types of data it is easy to print them out differently.
+
+void freeBlockchain(Blockchain *bc);
+	frees all dynamic memory used for the Blockchain including all data and Blocks
+
+void saveChain(char *file, Blockchain *bc);
+	saves blockchain data to disk
+Blockchain *loadChain(char *file);
+	loads blockchain data from disk
+

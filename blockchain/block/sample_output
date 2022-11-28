@@ -1,0 +1,80 @@
+Block #1
+prev: 13b295f5672940a402cac4824756cb7ad26dfbf196cb2ebc9d8cd6cd675894f
+data: 006ef9279fd8978f210d0f610b780a15450354805b7debe59a252a5f1f6
+data:
+0
+proof: 54493
+-------------------
+Block #2
+prev: 239e7e8ef81185243d613732c740872f792767efa7483ef84dd09ec229cdb8b1
+data: 00349afe6e4e769cc312f993abde09dea5a667360bd6eb6fccf74355d0
+data:
+1
+proof: 39019
+-------------------
+Block #3
+prev: 768ae87556b82a289f1621cd12f2d57c995515e7b4e96726227fc1e23567
+data: 0039858f66162c9423617bb405ebaca7f8284eae264d0cc8d192ebf9b5
+data:
+2
+proof: 244929
+-------------------
+Block #4
+prev: 5f2f214dbcc02e657f20dcd39cf0827a627a5ca29560a1f07f2c25ac5c98f168
+data: 00c12a36677cb74cc5a1862068f1e3bd9b6b6c692bcf5d4266784c681ae
+data:
+3
+proof: 182699
+-------------------
+Block #5
+prev: c0af5f1be792e5fde7b5792440c56471cdcee6174e845f1a9a7a31534486
+data: 003abe71b128b5b848a63053829129d8e3394e4ac81ae16f9dfee6cf1762fe
+data:
+4
+proof: 93106
+-------------------
+
+is this chain valid? true
+is this chain valid? false
+
+Block #0
+prev: 37e4af2a13682dceaea7da19d0b256cbc4e23ebfc3450c53f5494be304bf32b
+data: b2f051e26cfc97a91840df7f9309efcb555742749dd4c5d55829f5444386e79
+proof: 0
+-------------------
+Block #1
+prev: 13b295f5672940a402cac4824756cb7ad26dfbf196cb2ebc9d8cd6cd675894f
+data: 006ef9279fd8978f210d0f610b780a15450354805b7debe59a252a5f1f6
+data:
+0
+proof: 54493
+-------------------
+Block #2
+prev: 239e7e8ef81185243d613732c740872f792767efa7483ef84dd09ec229cdb8b1
+data: 00349afe6e4e769cc312f993abde09dea5a667360bd6eb6fccf74355d0
+data:
+1
+proof: 39019
+-------------------
+Block #3
+prev: 768ae87556b82a289f1621cd12f2d57c995515e7b4e96726227fc1e23567
+data: 0039858f66162c9423617bb405ebaca7f8284eae264d0cc8d192ebf9b5
+data:
+2
+proof: 244929
+-------------------
+Block #4
+prev: 5f2f214dbcc02e657f20dcd39cf0827a627a5ca29560a1f07f2c25ac5c98f168
+data: 00c12a36677cb74cc5a1862068f1e3bd9b6b6c692bcf5d4266784c681ae
+data:
+3
+proof: 182699
+-------------------
+Block #5
+prev: c0af5f1be792e5fde7b5792440c56471cdcee6174e845f1a9a7a31534486
+data: 003abe71b128b5b848a63053829129d8e3394e4ac81ae16f9dfee6cf1762fe
+data:
+4
+proof: 93106
+-------------------
+

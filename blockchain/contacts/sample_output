@@ -1,0 +1,95 @@
+opened file user.u
+welcome back poo
+
+----CONTACTS----
+|
+----PAGE_P----
+Contact:
+poo
+Public Key: (n = 755923457, c = 65537)
+----______----
+|
+----PAGE_R----
+Contact:
+Ron
+Public Key: (n = 214686977, c = 65537)
+----______----
+|
+
+printing list Transaction Pool
+[0] 755923457 is sending 0.000000 to 214686977 at 1669152451
+printing done
+755923457 is sending 0.000000 to 214686977 at 1669152451
+mining 1 transactions
+successfully mined a block
+-----
+Block #4--------
+prev: 9ffa8f92d5446189d2b417d6ec93bee9c3dace819bca36bb98ad4678d23824
+data: 008ab0c6691a3ef9465940bd3f1a5444082a2d69f2bd38bc5cb15e09608f
+755923457 is sending 0.000000 to 214686977 at 1669152451
+0 is sending 1.000000 to 755923457 at 1669152451
+proof: 207911
+timestamp: 1669152451
+-------------------
+your account balance is now 5.000000
+insufficient funds for spending 10.000000. You only have 5.000000
+755923457 is sending 0.000000 to 214686977 at 1669152453
+mining 1 transactions
+755923457 is sending 0.000000 to 214686977 at 1669152453
+mining 1 transactions
+my length 4 and the new length 2
+current chain kept
+755923457 is sending 0.000000 to 214686977 at 1669152453
+0 is sending 1.000000 to 755923457 at 1669152453
+755923457 is sending 0.000000 to 214686977 at 1669152453
+mining 3 transactions
+Block #0--------
+prev: 37e4af2a13682dceaea7da19d0b256cbc4e23ebfc3450c53f5494be304bf32b
+data: b2f051e26cfc97a91840df7f9309efcb555742749dd4c5d55829f5444386e79
+poo
+proof: 0
+timestamp: 0
+-------------------
+Block #1--------
+prev: 13b295f5672940a402cac4824756cb7ad26dfbf196cb2ebc9d8cd6cd675894f
+data: 00afaf6ee4f2ac662ad48b13d6a5df8beead8c9cf6c6832224f137435518
+755923457 is sending 0.000000 to 1224262499 at 1669152421
+0 is sending 1.000000 to 755923457 at 1669152421
+proof: 58398
+timestamp: 1669152421
+-------------------
+Block #2--------
+prev: 81c690bbfc83696a4e2ec338d34ec25e8758a769d8b2b704e7b13ced1f7ae
+data: 006de6d624b3781cc110f47f8c60e1f66c79e82913d078233091d5ebc37f5
+755923457 is sending 0.000000 to 1224262499 at 1669152424
+0 is sending 1.000000 to 755923457 at 1669152424
+proof: 33023
+timestamp: 1669152424
+-------------------
+Block #3--------
+prev: 1a78b37aeb7f106c635587fb6a97e41ab9ae6c27da6f2f795baedb1da5543d9a
+data: 006a4047317190529c59f1086e95ac462112159d29a820d79bef3a6eb15e
+755923457 is sending 0.000000 to 1224262499 at 1669152417
+0 is sending 1.000000 to 755923457 at 1669152417
+0 is sending 1.000000 to 755923457 at 1669152425
+proof: 41008
+timestamp: 1669152425
+-------------------
+Block #4--------
+prev: 9ffa8f92d5446189d2b417d6ec93bee9c3dace819bca36bb98ad4678d23824
+data: 008ab0c6691a3ef9465940bd3f1a5444082a2d69f2bd38bc5cb15e09608f
+755923457 is sending 0.000000 to 214686977 at 1669152451
+0 is sending 1.000000 to 755923457 at 1669152451
+proof: 207911
+timestamp: 1669152451
+-------------------
+Block #5--------
+prev: 3c858bf25c863411085a4a08c34e72f7d7e21a1ea23a57fe14fece1819b6ff4
+data: 001322afdaadf9cbf24341a678fed74b4bed1954e88a8503b516accbdd1
+755923457 is sending 0.000000 to 214686977 at 1669152453
+0 is sending 1.000000 to 755923457 at 1669152453
+755923457 is sending 0.000000 to 214686977 at 1669152453
+0 is sending 1.000000 to 755923457 at 1669152453
+proof: 2220
+timestamp: 1669152453
+-------------------

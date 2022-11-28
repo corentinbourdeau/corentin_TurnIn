@@ -1,0 +1,104 @@
+﻿Full Blockchain Project
+	
+	In this assignment you will be putting together your 4 previous exercises (p2pNode, RsaTransactions, BlockchainStructure, and ContactBook) to make the functionality of a networked blockchain. You will be responsible for making 3 functions in 2 files networkCommand.c networkCommand.h. There are 3 major components that need to be put together to get the blockchain functioning. You may need to edit your previous files. Your newest version will be used for testing.
+	A record of the transactions must be kept and distributed to other Nodes, which will use it to verify them. When blocks are mined (or received) after they have been validated, this transaction list must be updated.
+	Keys from the RSA must be kept track of via human readable methods, for this we will wrap them in Contact and User structs, that attach names and other relevant info. Likewise with the transactions, Contacts need to kept track of and distributed for the purposes of making transactions and verifying them.
+	The blockchain itself must be networked into the Node server model you have made. When connected to one another Nodes will exchange Contacts, they will also compare blockchains using a consensus model to choose the correct one. Any transactions made locally musst also be shared. Any data shared between server and client must be sent to any other nodes connected to maintain integrity.
+	In this assignment you will be creating 3 functions in 2 files, networkCommand.c and networkCommand.h. You may use as many files, helper functions or structs as you want in addition to these. You will be provideda main.c for your own testing.  Make your ownt Makefile as you’d like. This structure will likely differ from implementation to implementation, so I think is best for you to decide how you want to compile. For grading I will copy my main.c into your directory and compile with your Makefile and other source files.
+	For Turning in I want this structure and these folder names
+blockchain
+	...fullBlockchainFiles
+	block/
+		...blockchainStructure files...
+	contacts/
+		...ContactBook files..
+		rsa/
+			...rsaTransaction files…
+
+If the code doesn’t compile with the command make. It will considered incomplete. If you don’t include a Makefile I will just use my own.
+	
+
+Flow
+- Load Chain
+- Load User
+	- ask user for input to make a User
+	- save User to disk
+- Attempt Networking
+	Connection to remote server
+	 	exchange Contacts
+			save new Contact
+	Connection from remote client
+		exchange Chain data
+			chain length – longest Chain wins
+- Wait for input or network activity
+	- Transactions made
+		 - distributed over network
+	- Transactions received
+		- validate new transaction
+	- Mine Transactions into Block
+		- broadcast Block
+	- Receive Block
+		- validate Block
+		- add to local Chain
+	- broadcast event and reply to network
+- Wait for User input
+	- parse command
+	- produce network event
+	- broadcast network event
+- End of user input
+	- save Blockchain to disk
+	- save Contacts to disk
+
+networkCommand.h
+// these globals should only be accessible within this file and used only on this thread
+Blockchain *myChain;
+ContactBook *contacts;
+
+Blockchain *initBlockchain();
+	Initializes global myChain variable, attempting to load from the disk. Additionally it initialises the global contacts struct.
+
+Blockchain *getBlockchain();
+	returns a pointer to the global myChain Blockchain struct.
+
+ContactBook *get Contacts();
+	returns a pointer to the global conacts ContactBook struct.
+
+welcomeToBlockchain();
+	Called from runNode as welcome. This is called when the server is set up and it packs in the servers contact message, to be ready to be sent to any client that connects.
+
+void parseCommand(char *str);
+	Called from runNode as parse. This is called whenever the user thread has new data in its buffer. That data passed to this function via str. The function then takes that string and parses it for user commands on the blockchain. 
+	You must include commands for mining new blocks, sending transactions, printing out the blockchain, and printing out the main user’s account balance. In addition to this when the program starts up the user will enter a name and it must be used to generate a User struct to be used as mainUser.
+
+void processData(void *buffer, bool onServer);
+	Called from runNode as processData. This functions takes in buffers from the client and or server and processes the data inside of it into the proper functions. If there is a Transaction received from the network it is verified and added to the transaction pool. If a Block is received it is validated and added to the chain.
+	Some data may recquire a response to be sent to the network. If you receive a Contact you should send your local Contact back. If you receive a blockchain length, you should send your own back, or perhaps your whole chain if your length is bugger. Any response data should be sent along to the client and or server.q
+
+
+
+Example Helper Functions
+
+Data *writeDataMessage(int mes, Data *d);
+	creates a data packet with mes attached to the front of the buffer, so it explicitly tell others across the network what is inside. mes corresponds to different types of events that are to be broadcast.
+
+Data *parseDataMessage(void *buffer);
+	unpacks the buffer, pulls out mes and then unpacks the rest it into whatever struct its supposed to be (Contact, Transaction, Block, Blockchain etc) as told by mes
+
+Data*chainLengthMessage(Blockchain *chain);
+	packs up the length of local chain
+
+Data *myContactMessage();
+	packs up the main User’s contact
+
+Data *newBlockMessage();
+	mines a fresh block and packs it up to be broadcast
+ 
+Data *newTransactionMessage(char *com);
+	creates a transaction from command string, verifies it and packs it up
+
+Data *BlockchainMessage(Blockchain *chain);
+	packs up the Blockchain to sent over the network
+
+
+
+

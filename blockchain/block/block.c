@@ -1,6 +1,6 @@
 #include "block.h"
 
-Block *makeBlock(data *d, Block *pre) {
+Block *makeBlock(Data *d, Block *pre) {
     Block *b = (Block *)malloc(sizeof(Block));
     b->data = d;
     b->nonce = 0;

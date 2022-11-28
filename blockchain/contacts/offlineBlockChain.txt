@@ -1,0 +1,87 @@
+﻿Contact Book – Offline Blockchain
+
+	In this assignment you will be putting together your 2 previous exercises (RsaTransactions, and BlockchainStructure) to make the functionality of an offline blockchain. You will be provided with some basic linkedList structs and functions to save time, I have separated these functions in 4 files contactBook.c contactBook.h transactionPool.c transactionPool.h. contactBook.c is the files that is compiled and contactBook.h includes all of the necesarry headers. The transactionPool files are simply #included to make each file size a little smaller.
+	The ContactBook will hold public keys with human readable names as well as all all current transactions that have yet to be mined. It will also hold the program’s current user’s public and private key so it can sign transactions with ease.
+	In this assignment you will be creating 3 structs and 10 functions. You may use as many files, helper functions or structs as you want in addition to these. You will be provided a Makefile and a main.c for your own testing. Edit the Makefile as you’d like. For grading I will copy my main.c into your directory and compile with your Makefile and other source files.
+	For Turning in I want this structure
+block/
+	...blockchainStructure files...
+contacts/
+	...ContactBook files..
+	rsa/
+		...rsaTransaction files…
+
+If the code doesn’t compile with the command make. It will considered incomplete. If you don’t include a Makefile I will just use my own.
+	
+
+
+contactBook.h / transactionPool.h
+
+typedef struct Contact {
+	char *name;
+	Key publicKey;
+} Contact;
+
+typedef struct User {
+	char *name;
+	Key publicKey;
+	Key privateKey;
+} User;
+
+typedef struct ContactBook {
+	linkedList *book[27];
+	User *mainUser;
+	linkedList transactionPool;
+}
+
+#define macro POOLSIZE 3
+
+ContactBook *initContacts();
+	initialize your ContactBook struct and attempt to load the mainUser from disk.
+
+void freeContacts(ContactBook *book);
+	frees all allocated memory for contacts and transactions in this struct.
+
+User *genUser(char *name);
+	This function uses your makeKeyPair to generate a public and private key for a new user and takes in a string representing the human-readable name for the new user.
+
+Contact *getContact(User *u);
+	This function allocates memory for Contact struct and copies memory from the User into the Contact struct, so it can be used indepenedently of the User struct.
+
+void *packUser(User *u);
+	packs the User and all its info into a buffer.
+
+User *unpackUser(void *buffer);
+	reads a buffer (created by the previous function) and pulls out the information for a User and stores it in a struct.
+	These packing and unpacking functions are essential to saving and loading data to/from disk. As well as packing the structs into tight buffer to send through the internet and then unpack them on the other side.
+
+void saveUser(char *file, User *u);
+	Saves the User to the designated files
+
+User *loadUser(char *file);
+	Loads User from the designated file.
+
+void freeUser(User *u);
+	free all allocated memory for the User
+
+NUM *genTransaction(User *u, Contact *c, float amount);
+	This function pulls out the publicKey and privateKey from the User and the publicKey from the Contact and passes them into the  signTransaction function, returning the hashed Transaction.
+
+
+bool verifyTransaction(ContactBook *contacts, NUM *t, Key k, Blockchain *bc);
+	An encrypted transaction is passed along with the publicKey of whomever sent it. If the transaction is succesfully decrypted with the publicKey provided and we check the decrypted data matches that publicKey we can safely say to the best of our knowledge that the transaction is good, return true. Otherwise if the decypted key and the publicKey do not match, return false.
+	We then check to make sure the sender has enough funds via the account Balance function. If this is true and the transaction isn’t already in the pool we add it to the pool to await being mined.
+
+
+Block *mineBlock(ContactBook *contacts, Blockchain *bc, Contact *miner);
+	We pack in POOLSIZE transactions along with a reward Transaction to the miner. Remove the relevant transactions from the pool and put them in a Block which uses the proof of work functionality from your previous exercises to produce a valid Block, which is then returned from thee function.
+
+void printPoolPack(Block *)
+	Prints out a Block and its member variables. Prints out theinformation about the transaction within.
+
+float accountBalance(ContactBook *contacts, Key account, Blockchain *bc);
+	Return the amount of funds available to the the given public key. It checks the unmined transactions as well as the blockchain. Any transaction to the ssender are added to its funds and any from it are subtracted from its funds.
+
+bool chooseChain(ContactsBook *contacts, Blockchain **curChain, Blockchain *newChain);
+	Takes in the main ContactBook struct and Blockchain struct for the program and a new chain that has been received from another user. The main Blockchain is sent as a double pointer, so that if the new chain is chosen we can overwrite the main chain. We return true if the new chain was chosen.
+	For whatever chain we don’t choose we want to take the transactions off of it, put them into our open transaction pool if they are not already in there. Additionally if we choose the new chain we want to remove any transaction in our pool that are already a part of this new chain.

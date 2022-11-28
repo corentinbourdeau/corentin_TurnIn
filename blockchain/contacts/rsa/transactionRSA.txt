@@ -1,0 +1,51 @@
+﻿RSA Signature Transactions
+	
+	For blockchains and many other applications that require user verifications, use a RSA encryption scheme to identify actors within the system. You have been provided the base functionality for RSA (essentially the math parts) which are verified to work. You will be working with integer type int64_t for your numbers. In addition you will also be provided a list generated primes and a function too read from the list randomly. Primes will also define the Macro NUM as int64_t. The purpose for this is to make your code easily modifiable to use different integer types, as 64 but integers are goood for practice, but are not big enough to properly secure the encryption schema with moodern processing power.
+	For your assignment you will be implementing a Key Pair system using the provided functions. In addition you will implement a transaction struct which consists a sender’s public key, the recipients public key and data with the transaction. In this case the data will be in the form of a float as this is what is used for crypto currency transactions. Transactions will be encrypted via a user’s private key, therefore they will act as a signature does, in that when you decrypt a transaction with the sender’s public key, that decrypted transaction will contain a copy of the public key and can be verified as being untampered with.
+	You will be charged with making 4 files, crypt.c, crypt.h, transaction.c, and transaction.h. You will be given a Makefile. Feel free to make any changes to it you like, as well as adding any helper functions or structs(or members to structs). For grading and testing I will use my own copy of main.c and any files you include in your directory. Your code must compile with your Makefile.
+
+Allowed Headers
+#include <time.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#include<inttypes.h>
+#include <math.h>
+
+crypt.h
+//struct holding the values for a key, can be private or public
+typedef struct Key {
+	NUM n;
+	NUM c;
+} Key;
+
+Key *makeKeyPair();
+	generates 2 random prime numbers and passes them to provided genKeys function which returns an array of 3 integers. publicKey.n = [0], pubicKey.c = [1] privateKey.n = [0]  and privateKey.c = [2]. Store them accordingly into an array of Key structs of size 2.
+
+NUM *cryptData(NUM *data, int len, Key user);
+	Takes in an array of type defined by NUM macro and the length of that array. It also takes in the key to be used for this data. The provided modularExponentiation function will encrypt/decrypt a chunk of data sized as NUM(in the standard case 8 bytes);
+The user Key’s values will be used in the modularExponentiation function. If you pass in a message that message will be encrypted. If you pass in a cipher and the corresponding Key used to create the cipher it will decrypt it. If you send in the wrong key, you simply get gibberish.
+
+void printKey(Key *k);
+	print out both n and c of the Key passed to it. Remember NUM is default type int64_t. (printf(“%”PRId64”\n”);)
+
+
+transaction.h
+
+typedef struct Transaction {
+	Key sender;
+	Key recipient;
+	float amount;
+	time_t timestamp;
+} Transaction
+
+NUM *signTransaction(Key *sender, Key recipient, float amount);
+	This function will takee in the information needed for a Transaction, but it doesn’t need to be put into a struct here, instead we can store it in an array. sender will be an array containing both public and private key. The public key will be put into the array along with  recipient, which corresponds to the recipients public key. The amount will be put in and a timestamp will be generated and put into the  array. Then you will use the sender’s private key to encrypt the array and return it from the function. If this fails at any point it should free all allocated memory within and return NULL.
+
+Transaction *decryptTransaction(NUM *transaction, Key sender);
+	This function will take in cipher array created from signTransaction as well as the sender’s public Key. Using the cryptData function it will decrypt the transaction cipher and store the values into a Transaction struct. Since we have a copy of the public key sent to us, we can verify that this cipher was decrypted properly by comparing the the decrypted key to the provided key. If they do not match we know the transaction has been tampered with, free all memory and return NULL. But if the the Keys do match return a pointer to the newly created struct.
+
+void printTransaction(Transaction *t);
+	prints out the details of the transaction. 

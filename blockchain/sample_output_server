@@ -1,0 +1,35 @@
+no user.u found
+Creating new user please enter a name and press enter
+User:
+poo
+Private Key: (n = 470037949, d = 205936897)
+Public Key: (n = 470037949, d = 65537)
+~~Server up and Running~~
+New connection, socket fd 4, ip is: 127.0.0.1, port: 43322
+new socket 4
+received chain length 0
+
+received new contact
+Contact:
+fart
+Public Key: (n = 913320143, c = 65537)
+
+
+received good transaction
+
+913320143 is sending 0.000000 to 470037949 at 1669221218
+mining 1 transactions
+mining block
+successfully mined a block
+-----
+Block #1--------
+prev: 13b295f5672940a402cac4824756cb7ad26dfbf196cb2ebc9d8cd6cd675894f
+data: 00ab1bb3353d5e03a9e6a76bd9a921170c783e01bfabb4fae93c93444999
+913320143 is sending 0.000000 to 470037949 at 1669221218
+0 is sending 1.000000 to 470037949 at 1669221221
+proof: 27601
+timestamp: 1669221221
+-------------------
+lost connection to socket #0
+input thread over
+Good Bye!

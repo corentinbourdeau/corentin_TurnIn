@@ -1,0 +1,46 @@
+no user.u found
+Creating new user please enter a name and press enter
+User:
+fart
+Private Key: (n = 913320143, d = 579499073)
+Public Key: (n = 913320143, d = 65537)
+
+sending our length 0
+~~~Client Connected -- 127.0.0.1:6969 is Open~~~
+
+received new contact
+Contact:
+poo
+Public Key: (n = 470037949, c = 65537)
+
+
+
+transaction pending...
+913320143 is sending 0.000000 to 470037949 at 1669221218
+received good block
+
+Block #1--------
+prev: 13b295f5672940a402cac4824756cb7ad26dfbf196cb2ebc9d8cd6cd675894f
+data: 00ab1bb3353d5e03a9e6a76bd9a921170c783e01bfabb4fae93c93444999
+913320143 is sending 0.000000 to 470037949 at 1669221218
+0 is sending 1.000000 to 470037949 at 1669221221
+proof: 27601
+timestamp: 1669221221
+-------------------
+Block #0--------
+prev: 37e4af2a13682dceaea7da19d0b256cbc4e23ebfc3450c53f5494be304bf32b
+data: b2f051e26cfc97a91840df7f9309efcb555742749dd4c5d55829f5444386e79
+poo
+proof: 0
+timestamp: 0
+-------------------
+Block #1--------
+prev: 13b295f5672940a402cac4824756cb7ad26dfbf196cb2ebc9d8cd6cd675894f
+data: 00ab1bb3353d5e03a9e6a76bd9a921170c783e01bfabb4fae93c93444999
+913320143 is sending 0.000000 to 470037949 at 1669221218
+0 is sending 1.000000 to 470037949 at 1669221221
+proof: 27601
+timestamp: 1669221221
+-------------------
+input thread over
+Good Bye!
