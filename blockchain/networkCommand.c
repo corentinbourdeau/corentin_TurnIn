@@ -1,14 +1,11 @@
 #include "networkCommand.h"
 
 Blockchain *initBlockchain() {
-    myChain = malloc(sizeof(Blockchain));
-    myChain->head = NULL;
-    myChain->tail = NULL;
-    myChain->length = 0;
-    myChain->transactionPool = NULL;
-    myChain->transactionPoolLength = 0;
-    myChain->difficulty = 0;
-    return myChain;
+    Blockchain *bc = makeBlockchain();
+    Data *d = makeData("Genesis Block", "Genesis Block", 0);
+    Block *b = makeBlock(d, NULL);
+    addBlock(bc, b);
+    return bc;
 }
 	// Initializes global myChain variable, attempting to load from the disk. Additionally it initialises the global contacts struct.
 
