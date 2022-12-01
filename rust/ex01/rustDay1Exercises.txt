@@ -1,0 +1,690 @@
+﻿Rust Exercises1
+
+	For this assignment you will be creating a series of functions. They have their functionality described as well edge cases and expected outputs. Part of the assignment will be creating your own main function and testing out your code. This means you will create your own main.rs for your own use.
+	You will be required to turn in 4 files bank.rs, madlib.rs, shape.rs, mine_sweeper.rs. I will call your functions from my own main.rs with several tests I will run them through. The tests will be similar to the example inputs detailed below. 
+	Each exercise will be worth a certain amount of points. The total score will be graded out of 60 with 75 points possible for extra credit. In the grading every function will be called. If your function compiles it is worth 1 pt and if it is error free that will be 1 pt more. Additional points will be based on output, how the function handles edge cases, and general structure of the function.
+
+points
+bank.rs 		10 pts
+madlib.rs 		15 pts
+shape.rs 		20 pts
+mine_sweeper.rs	30 pts
+
+	
+
+bank.rs
+
+
+10 pts
+pub struct Bank<T, U> {
+	banker: String,
+	vault: HashMap<String, T>,
+	lock_box: HashMap<String, Vec<U>>,
+	min_deposit: T
+}
+	You will take the file and change the struct to match the above example. You will need to update your deposit(&mut self, customer: &str, amount: T) function to utilize the HashMap functionality to save a running sum for whomever is depositing. The customer’s name will be the key and you will add the amount to the value. The parameters will stay the same, it will check if the customer is depositing at least min_deposit. If so that it check if the customer has an account, by checking the HashMap for the key corresponding to the name, then it updates the value with the new added deposit.
+	You will also need to update your impl block. I will not give you this signature as it could be different depending on what Traits you deem necesarry to accomplish the goal. There are many traits in the std library of rust, and you can use many different combinatiosn to accomplish this task. 
+	 Additonally implement the following functions.
+
+
+banker: “Mr. Wholeman”
+customer: “Kreuger” amount: 7
+Thank you, Kreuger for your deposit of 7 your account is now 7
+ - Mr. Wholeman
+
+banker: “Mr. Wholeman”
+customer: “Kreuger” amount: 7
+Thank you, Kreuger for your deposit of 7 your account is now 14
+- Mr. Wholeman
+
+banker: “Mr. Wholeman”
+customer “BingBong” amount 1
+sorry your deposit doesn't meet our minimum standard
+- Mr. Wholeman
+
+
+pub fn withdrawal(&mut self, customer: &str, amount: T) -> T
+	This will take in a &str that correlates to a customer’s name and is used as the key for the vault HashMap.  The amount is how much they wish to withdraw from their account. You will use the name to check if they have an account and if so how much money is in it. If they do not have an account, do not add them to the HashMap vault.
+	If they have money return the value taken from their account and update their account. If they do not have enough return 0. (Hint: T::default()).
+ 
+
+banker: MoneyBags
+customer: “Willaim” amount: 6 // first time “William” has used this bank
+I am sorry but you dont have an account here
+- MoneyBags
+
+banker: Mr. Wholeman
+customer: “Kreuger” amount: 6
+Kreuger Youre account now has 8
+- Mr. Wholeman
+
+banker: Mr. Wholeman
+customer: “Kreuger” amount: 60
+Kreuger You don't have 60 in your account
+ - Mr. Wholeman
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pub fn retrieve(&mut self, customer: &str, item: U) -> Option<U> 
+	This will take in a &str that correlates to a customer’s name and is used as the key for the vault HashMap. The item will be of type U (it will be tested with Strings). If an item matching this is in the lock_box’s HashMap Vector value, then remove it from there and return the value. If they do not have an account, do not add them to the HashMap lock_box.
+
+
+Banker: Mr. Wholeman
+customer “Walla” item “pisol”
+Walla, I am terribly sorry but your "pisol" is not here
+- Mr. Wholeman
+
+Banker: Mr. Wholeman
+customer “Walla” item “pistol”
+Here you are Walla, your "pistol"
+- Mr. Wholeman
+
+Banker: Mr. Wholeman
+customer “Koopie” item “jewelery”
+Im sorry you dont have an account here
+- Mr. Wholeman
+
+
+
+
+
+madlib.rs
+
+15 pts
+	You will extend your mad lib functionality from the previous day, this time designing a struct to hold a variety of different mad libs. You will be provided an impl that your code should adhere to. You will design your own struct for holding the data.
+
+impl MadLib {
+	pub fn new() -> Self {}
+		*instaniates a new MadLib instance, ready to be filled with content.*/
+
+	pub fn add_content(&mut self, story: Option<&str>. prompt: Option<&str>) {}
+		/*This function takes in to Optional parameters. The first story corresponds to parts of the MadLib that are static, the framework of the story. The Optional variable prompt corresponds to what type of word the user will be prompted to fill at the end of the story &str.*/
+
+	pub fn prompt(&mut self) {}
+		/*This begins the user interaction. The MadLib struct will read out the prompts it has stored from add_content and take in user input and store it within its memory. If the struct has no prompts it does nothing.*/
+
+
+	pub fn read(&self) {}
+		/*This function prints out the Strings stored from add_content() as followed by the Strings collected from prompt(), because add content has Options for parameters, the MadLib should be ablle to handle all possible values. If there is nothing stored in the struct it does nothing.*/
+
+}
+
+let mut m = MadLib::new();
+m.add_content(Some("The "), Some("noun"));
+m.add_content(Some(" went to the store and "), Some("verb ending with ed"));
+m.add_content(Some(". Everyone was so "), Some("adjective"));
+m.add_content(Some(", that they all "), Some("verb ending with ed"));
+m.add_content(Some(". and thats it\n"), None);
+m.prompt();
+m.read();
+
+MADLIB
+give me a noun
+bath
+give me a verb ending with ed
+punched
+give me a adjective
+shiny
+give me a verb ending with ed
+wavered
+The bath went to the store and punched. Everyone was so shiny, that they all wavered. and thats it
+
+
+let mut m = MadLib::new();
+m.add_content(Some("Walton Woods stood "), Some("adjective"));
+m.add_content(Some(" and scary.\nDark trees "), Some("past tense verb"));
+m.add_content(Some(" the sky, "), Some("plural noun"));
+m.add_content(Some(" were all around use, fear prickled at my "), Some("noun"));
+m.add_content(Some(".\nThen suddenly a "), Some("adjective"));
+m.add_content(Some(" light burst from the "), Some("noun"));
+m.add_content(Some(".\nAnd we were gone\n"), None);
+m.prompt();
+m.read();
+MADLIB
+give me a adjective
+crumbly
+give me a past tense verb
+wished
+give me a plural noun
+birds
+give me a noun
+fist
+give me a adjective
+lucky
+give me a noun
+boot
+Walton Woods stood crumbly and scary.
+Dark trees wished the sky, birds were all around use, fear prickled at my fist.
+Then suddenly a lucky light burst from the boot.
+And we were gone
+
+
+
+
+
+
+
+
+
+
+
+
+shape.rs
+
+20 pts
+	In this file you will implement several traits and structs. The central theme will be about displaying shapes of various sizes on the command line, there will be 3 shapes, a Rectangle a Triangle and a Square. They will all implement the trait Display and the custom trait TwoD. You will then implement another trait Vec2D that is a blanket implementation of TwoD, this adds the functionality of creating a 2D vector from the shape. The will be given the signatures for the implementations and structs below.
+
+pub trait TwoD {
+
+	fn draw(&self) -> String {}
+		/*This function retuns a formatted String that when printed out displays their shape printed out with the sprite char.*/
+
+	fn mid_point(&self) -> (i32, i32) {}
+		/*This functions reutrns the calculated center of the Shape calculated via the implementer’s width and height parameters*/
+
+	fn height(&self) -> u32 {}
+		/*This function acts as a getter for the implemnter’s height member variable*/
+
+}
+
+pub struct Rect {
+	width: u32,
+	height: u32,
+	sprite: char
+}
+
+impl Rect {
+	pub fn new(width: u32, height: u32, sprite: char) -> Self {}
+}
+
+impl TwoD for Rect {
+
+	fn draw(&self) -> String {}
+		/*This function retuns a formatted String that when printed out displays their shape printed out with the sprite char.*/
+
+	fn mid_point(&self) -> (i32, i32) {}
+		/*This functions reutrns the calculated center of the Shape calculated via the implementer’s width and height parameters*/
+
+	fn height(&self) -> u32 {}
+		/*This function acts as a getter for the implemnter’s height member variable*/
+
+}
+impl Display for Rect {
+	fn fmt(&self, f: &mut Formatter<'_>) -> Result {}
+}
+Rect::new(6, 7, '&');
+&&&&&&
+&&&&&&
+&&&&&&
+&&&&&&
+&&&&&&
+&&&&&&
+&&&&&&
+mid_point() 	(3,3)
+height()		7
+
+Rect::new(2, 4, ‘-’);
+--
+--
+--
+--
+mid_point() 	(1, 2)
+height()		4
+
+Rect::new(8, 12, ‘#’)
+########
+########
+########
+########
+########
+########
+########
+########
+########
+########
+########
+########
+
+mid_point() 	(4, 6)
+height()		12
+
+pub struct Triangle {
+	width: u32,
+	height: u32,
+	sprite: char,
+}
+
+impl Triangle {
+	pub fn new(height: u32, sprite: char) -> Self {}
+}
+
+
+impl TwoD for Triangle 
+
+	fn draw(&self) -> String {}
+		/*This function retuns a formatted String that when printed out displays their shape printed out with the sprite char.*/
+
+
+
+	fn mid_point(&self) -> (i32, i32) {}
+		/*This functions reutrns the calculated center of the Shape calculated via the implementer’s width and height parameters*/
+
+	fn height(&self) -> u32 {}
+		/*This function acts as a getter for the implemnter’s height member variable*/
+
+}
+
+impl Display for Triangle {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {}
+}
+
+
+Triangle::new(5, '#')
+     #    
+    ###   
+   #####  
+  ####### 
+ #########
+
+mid_point() 	(5, 2)
+height() 		5
+
+
+Triangle::new(6, '?');
+      ?     
+     ???    
+    ?????   
+   ???????  
+  ????????? 
+ ???????????
+
+mid_point		(6, 3)
+height() 		6
+
+
+Triangle::new(9, '%')
+         %        
+        %%%       
+       %%%%%      
+      %%%%%%%     
+     %%%%%%%%%    
+    %%%%%%%%%%%   
+   %%%%%%%%%%%%%  
+  %%%%%%%%%%%%%%% 
+ %%%%%%%%%%%%%%%%%
+
+mid__point()	(9, 4)
+height()		9
+
+
+
+
+pub struct Circle {
+	radius: f64,
+	sprite: char
+}
+
+impl Circle {
+	pub fn new(radius: f64, sprite: char) -> Self {}
+}
+
+impl TwoD for Circle {
+
+	fn draw(&self) -> String {}
+		/*This function retuns a formatted String that when printed out displays their shape printed out with the sprite char.*/
+
+	fn mid_point(&self) -> (i32, i32) {}
+		/*This functions reutrns the calculated center of the Shape calculated via the implementer’s width and height parameters*/
+
+	fn height(&self) -> u32 {}
+		/*This function will calculate the height of the circle*/
+
+}
+
+impl Display for Circle {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {}
+}
+
+Circle::new(5.0, '^')
+   ^^^^^  
+  ^^^^^^^ 
+ ^^^^^^^^^
+ ^^^^^^^^^
+ ^^^^^^^^^
+ ^^^^^^^^^
+ ^^^^^^^^^
+  ^^^^^^^ 
+   ^^^^^  
+
+mid_point() 	(5, 5)
+height() 		11
+Circle::new(7.0, '!')              
+    !!!!!!!   
+   !!!!!!!!!  
+  !!!!!!!!!!! 
+ !!!!!!!!!!!!!
+ !!!!!!!!!!!!!
+ !!!!!!!!!!!!!
+ !!!!!!!!!!!!!
+ !!!!!!!!!!!!!
+ !!!!!!!!!!!!!
+ !!!!!!!!!!!!!
+  !!!!!!!!!!! 
+   !!!!!!!!!  
+    !!!!!!!   
+
+mid_point() 	(7, 7)
+height() 		15
+
+
+Circle::new(21.0, '*')
+                                          
+               *************              
+             *****************            
+           *********************          
+         *************************        
+        ***************************       
+       *****************************      
+      *******************************     
+     *********************************    
+    ***********************************   
+    ***********************************   
+   *************************************  
+   *************************************  
+  *************************************** 
+  *************************************** 
+ *****************************************
+ *****************************************
+ *****************************************
+ *****************************************
+ *****************************************
+ *****************************************
+ *****************************************
+ *****************************************
+ *****************************************
+ *****************************************
+ *****************************************
+ *****************************************
+ *****************************************
+  *************************************** 
+  *************************************** 
+   *************************************  
+   *************************************  
+    ***********************************   
+    ***********************************   
+     *********************************    
+      *******************************     
+       *****************************      
+        ***************************       
+         *************************        
+           *********************          
+             *****************            
+               *************              
+
+mid_point() 	(21, 21)
+height() 		43
+
+
+
+
+pub trait Vec2D {
+	fn form(&self) -> Vec<Vec<(i32, i32)>>;
+}
+
+impl<T: TwoD> Vec2D for T {
+
+	fn form(&self) -> Vec<Vec<(i32, i32)>> {}
+		/*This function processes the implementer’s member variables and calls the functions draw(), mid_point(), and height() to produce a 2d vector of Tuples, 1 for each character in the implmenter’s draw() string. Each tuple holds cartesain coordinate values cooresponding to their distance from the middle of the shape’s calculated area*/
+
+}
+Here examples of Vector output printed one vector per line
+
+Rect::new(6, 7, '&')
+[(-3, 3), (-2, 3), (-1, 3), (0, 3), (1, 3), (2, 3)]
+[(-3, 2), (-2, 2), (-1, 2), (0, 2), (1, 2), (2, 2)]
+[(-3, 1), (-2, 1), (-1, 1), (0, 1), (1, 1), (2, 1)]
+[(-3, 0), (-2, 0), (-1, 0), (0, 0), (1, 0), (2, 0)]
+[(-3, -1), (-2, -1), (-1, -1), (0, -1), (1, -1), (2, -1)]
+[(-3, -2), (-2, -2), (-1, -2), (0, -2), (1, -2), (2, -2)]
+[(-3, -3), (-2, -3), (-1, -3), (0, -3), (1, -3), (2, -3)]
+
+Triangle::new(5, '#')
+[(0, 2)]
+[(-1, 1), (0, 1), (1, 1)]
+[(-2, 0), (-1, 0), (0, 0), (1, 0), (2, 0)]
+[(-3, -1), (-2, -1), (-1, -1), (0, -1), (1, -1), (2, -1), (3, -1)]
+[(-4, -2), (-3, -2), (-2, -2), (-1, -2), (0, -2), (1, -2), (2, -2), (3, -2), (4, -2)]
+
+Rect::new(6, 7, '&')
+[]
+[(-2, 4), (-1, 4), (0, 4), (1, 4), (2, 4)]
+[(-3, 3), (-2, 3), (-1, 3), (0, 3), (1, 3), (2, 3), (3, 3)]
+[(-4, 2), (-3, 2), (-2, 2), (-1, 2), (0, 2), (1, 2), (2, 2), (3, 2), (4, 2)]
+[(-4, 1), (-3, 1), (-2, 1), (-1, 1), (0, 1), (1, 1), (2, 1), (3, 1), (4, 1)]
+[(-4, 0), (-3, 0), (-2, 0), (-1, 0), (0, 0), (1, 0), (2, 0), (3, 0), (4, 0)]
+[(-4, -1), (-3, -1), (-2, -1), (-1, -1), (0, -1), (1, -1), (2, -1), (3, -1), (4, -1)]
+[(-4, -2), (-3, -2), (-2, -2), (-1, -2), (0, -2), (1, -2), (2, -2), (3, -2), (4, -2)]
+[(-3, -3), (-2, -3), (-1, -3), (0, -3), (1, -3), (2, -3), (3, -3)]
+[(-2, -4), (-1, -4), (0, -4), (1, -4), (2, -4)]
+
+
+
+
+
+
+
+
+
+
+mine_sweeper.rs
+
+30 pts
+	In this file you will implement the functionality and interface for mine sweeper. You will implement a struct and impl block to define the functionality. The game will be dynamically sized, in that the board and number of mines grow with every level completed by flagging all of the bombs. If the player checks a bomb, you reveal all the bombs and they end. Because of the dynamically sized aspect your struct should keep track of the map and mines in a dynamically sized collection, I will leave the implementation of the struct for you to decide, but their will be several methods required for the assignment.
+	You may use your inout_coord(size: u8) function from your previous exercises. Or any function you have so far. I will also outline some suggested helper functions that may help guide you, but will not be tested.
+
+impl mine_sweeper {
+	//required
+	pub fn new(dimension: u8) -> Self {}
+	pub fn game (&mut self) {}
+
+	//suggested
+	pub fn draw_mines(&self) {}
+		/*draws the current game state, marking empty spaces with ‘_’, unseen spaces with ‘o’. All checked spaces with mines adjacent are marked with numbers. If mine shave been revealed they are drawn as ‘@’. Successful flags are drawn as ‘!’*/
+
+	fn mine_count(&mut self, play: (u8, u8)) 
+		/*counts all of the mines adjacent to play spot (the u8s represent cartesian coordinates in the map). You can also have this function change the map value to change what is drawn. Marking empty spaces and mine couints. It can also be called recursively.*/
+
+}
+
+- - - - - - - 
+4  o o o o o  |
+3  o o o o o  |
+2  o o o o o  |
+1  o o o o o  |
+0  o o o o o  |
+
+   0 1 2 3 4 
+enter f for flag and c for checking
+c
+enter coordinate for 5 x 5:
+1
+enter coordinate for 5 x 5:
+1
+- - - - - - - 
+4  o o o o o  |
+3  o o @ o @  |
+2  o o o o o  |
+1  @ @ o @ o  |
+0  o o o o o  |
+
+   0 1 2 3 4 
+you lose!
+
+
+
+
+- - - - - - - 
+4  o o o o o  |
+3  o o o o o  |
+2  o o o o o  |
+1  o o o o o  |
+0  o o o o o  |
+
+   0 1 2 3 4 
+enter f for flag and c for checking
+c
+enter coordinate for 5 x 5:
+0
+enter coordinate for 5 x 5:
+0
+- - - - - - - 
+4  o o o o o  |
+3  o o o o o  |
+2  o o o o o  |
+1  o o o o o  |
+0  1 o o o o  |
+
+   0 1 2 3 4 
+enter f for flag and c for checking
+c
+enter coordinate for 5 x 5:
+2
+enter coordinate for 5 x 5:
+4
+- - - - - - - 
+4  o 1 _ _ _  |
+3  1 2 1 2 1  |
+2  1 2 o 2 o  |
+1  o 2 1 3 o  |
+0  1 1 _ 1 o  |
+
+   0 1 2 3 4 
+enter f for flag and c for checking
+f
+enter coordinate for 5 x 5:
+0
+enter coordinate for 5 x 5:
+1
+- - - - - - - 
+4  o 1 _ _ _  |
+3  1 2 1 2 1  |
+2  1 2 o 2 o  |
+1  ! 2 1 3 o  |
+0  1 1 _ 1 o  |
+
+   0 1 2 3 4 
+enter f for flag and c for checking
+f
+enter coordinate for 5 x 5:
+4
+enter coordinate for 5 x 5:
+0
+
+
+
+
+
+- - - - - - - 
+4  o 1 _ _ _  |
+3  1 2 1 2 1  |
+2  1 2 o 2 o  |
+1  ! 2 1 3 o  |
+0  1 1 _ 1 !  |
+
+   0 1 2 3 4 
+enter f for flag and c for checking
+f
+enter coordinate for 5 x 5:
+4
+enter coordinate for 5 x 5:
+1
+- - - - - - - 
+4  o 1 _ _ _  |
+3  1 2 1 2 1  |
+2  1 2 o 2 o  |
+1  ! 2 1 3 o  |
+0  1 1 _ 1 !  |
+
+   0 1 2 3 4 
+enter f for flag and c for checking
+c
+enter coordinate for 5 x 5:
+4
+enter coordinate for 5 x 5:
+1
+- - - - - - - 
+4  o 1 _ _ _  |
+3  1 2 1 2 1  |
+2  1 2 o 2 o  |
+1  ! 2 1 3 2  |
+0  1 1 _ 1 !  |
+
+   0 1 2 3 4 
+enter f for flag and c for checking
+f
+enter coordinate for 5 x 5:
+4
+enter coordinate for 5 x 5:
+2
+- - - - - - - 
+4  o 1 _ _ _  |
+3  1 2 1 2 1  |
+2  1 2 o 2 !  |
+1  ! 2 1 3 2  |
+0  1 1 _ 1 !  |
+
+   0 1 2 3 4 
+enter f for flag and c for checking
+f
+enter coordinate for 5 x 5:
+2
+enter coordinate for 5 x 5:
+2
+
+
+
+
+
+- - - - - - - 
+4  o 1 _ _ _  |
+3  1 2 1 2 1  |
+2  1 2 ! 2 !  |
+1  ! 2 1 3 2  |
+0  1 1 _ 1 !  |
+
+   0 1 2 3 4 
+enter f for flag and c for checking
+f
+enter coordinate for 5 x 5:
+0
+enter coordinate for 5 x 5:
+4
+you win!
+- - - - - - - - - 
+6  o o o o o o o  |
+5  o o o o o o o  |
+4  o o o o o o o  |
+3  o o o o o o o  |
+2  o o o o o o o  |
+1  o o o o o o o  |
+0  o o o o o o o  |
+
+   0 1 2 3 4 5 6 
+enter f for flag and c for checking
