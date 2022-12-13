@@ -10,9 +10,9 @@ pub struct Bank<T, U> {
 
 impl<T: PartialOrd + Display, U: Debug> Bank<T, U> {
 	pub fn new(banker: String, min_deposit: T) -> Self {
-		Self { 
-			banker, 
-			vault: Vec::new(), 
+		Bank {
+			banker,
+			vault: HashMap::new(),
 			lock_box: HashMap::new(),
 			min_deposit
 		}
