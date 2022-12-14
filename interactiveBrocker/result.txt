@@ -4,3 +4,7 @@
 {76792991,TSLA,173.84,323511,83727059,182.5,173.36,179.05,179.685}
 {107113386,META,115.25,75713,17630314,117.54,113.87,115.9,116.19}
 {6459,DIS,92.37,31298,6361769,94.91,91.9,93.38,93.851}
+
+
+# mon ami, where are the other 4 tickers?
+- also, remind me to discuss this with you as I would like to know what fields there are in the header.
