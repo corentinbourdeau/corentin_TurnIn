@@ -1,0 +1,105 @@
+-----------------------
+Blockchain Structure
+-----------------------
+	compiles -------- 00/05
+gcc -c -g -Wall -w -pedantic sha256/sha256.c 
+gcc -c -g -Wall -w -pedantic block.c
+In file included from block.c:1:
+block.h:29:33: error: expected declaration specifiers or ‘...’ before ‘,’ token
+   29 | void printChain(Blockchain *bc, , void (*printFunc)(Block*));
+      |                                 ^
+block.c: In function ‘makeBlock’:
+block.c:7:16: error: assignment to expression with array type
+    7 |     b->preHash = (BYTE *)malloc(sizeof(BYTE) * 32);
+      |                ^
+block.c:8:17: error: assignment to expression with array type
+    8 |     b->dataHash = (BYTE *)malloc(sizeof(BYTE) * 32);
+      |                 ^
+block.c:9:6: error: ‘Block’ has no member named ‘hash’
+    9 |     b->hash = (BYTE *)malloc(sizeof(BYTE) * 32);
+      |      ^~
+block.c:11:20: error: assignment to expression with array type
+   11 |         b->preHash = NULL;
+      |                    ^
+block.c:17:23: error: ‘Block’ has no member named ‘hash’
+   17 |         hashBlock(b, b->hash);
+      |                       ^~
+block.c:18:14: error: ‘Block’ has no member named ‘hash’
+   18 |         if (b->hash[0] == 0 && b->hash[1] == 0 && b->hash[2] == 0) {
+      |              ^~
+block.c:18:33: error: ‘Block’ has no member named ‘hash’
+   18 |         if (b->hash[0] == 0 && b->hash[1] == 0 && b->hash[2] == 0) {
+      |                                 ^~
+block.c:18:52: error: ‘Block’ has no member named ‘hash’
+   18 |         if (b->hash[0] == 0 && b->hash[1] == 0 && b->hash[2] == 0) {
+      |                                                    ^~
+block.c: In function ‘makeBlockchain’:
+block.c:28:7: error: ‘Blockchain’ has no member named ‘head’
+   28 |     bc->head = NULL;
+      |       ^~
+block.c:30:7: error: ‘Blockchain’ has no member named ‘size’
+   30 |     bc->size = 0;
+      |       ^~
+block.c: In function ‘addBlock’:
+block.c:35:11: error: ‘Blockchain’ has no member named ‘head’
+   35 |     if (bc->head == NULL) {
+      |           ^~
+block.c:36:11: error: ‘Blockchain’ has no member named ‘head’
+   36 |         bc->head = b;
+      |           ^~
+block.c:38:11: error: ‘Blockchain’ has no member named ‘size’
+   38 |         bc->size++;
+      |           ^~
+block.h:10:14: note: ‘preHash’ declared here
+   10 |         BYTE preHash[SHA256_BLOCK_SIZE];        //macros provided in header
+      |              ^~~~~~~
+block.c:44:35: error: ‘Block’ has no member named ‘hash’
+   44 |     if (memcmp(b->preHash, bc->cur->hash, 32) != 0) {
+      |                                   ^~
+block.c:49:7: error: ‘Blockchain’ has no member named ‘size’
+   49 |     bc->size++;
+      |       ^~
+block.c: In function ‘validateChain’:
+block.c:54:20: error: ‘Blockchain’ has no member named ‘head’
+   54 |     Block *cur = bc->head;
+      |                    ^~
+block.h:10:14: note: ‘preHash’ declared here
+   10 |         BYTE preHash[SHA256_BLOCK_SIZE];        //macros provided in header
+      |              ^~~~~~~
+block.c: In function ‘printBlock’:
+block.c:69:36: error: ‘Block’ has no member named ‘hash’
+   69 |     printf("Block %d, hash %s\n", b->hash, b->preHash);
+      |                                    ^~
+block.c: At top level:
+block.c:72:33: error: expected declaration specifiers or ‘...’ before ‘,’ token
+   72 | void printChain(Blockchain *bc, , void (*printFunc)(Block*)) {
+      |                                 ^
+block.c: In function ‘freeBlockchain’:
+block.c:81:20: error: ‘Blockchain’ has no member named ‘head’
+   81 |     Block *cur = bc->head;
+      |                    ^~
+block.c: In function ‘saveChain’:
+block.c:92:20: error: ‘Blockchain’ has no member named ‘head’
+   92 |     Block *cur = bc->head;
+      |                    ^~
+make: *** [Makefile:12: block.o] Error 1
+
+	works ----------- 00/15
+		makeBlock------ 0/4
+		addBlock------- 0/2
+		validateChain-- 0/4
+		printBlock----- 0/1
+		printChain----- 0/1
+		freeBlockchain- 0/1
+		saveChain------ 0/1
+		loadChain------ 0/1
+-----------------------
+	leak-proof ---- 00/00
+
+	notes
+
+-----------------------
+	
+-----------------------
+total ----------- 00/20  
+

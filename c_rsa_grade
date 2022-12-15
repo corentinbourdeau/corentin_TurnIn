@@ -1,0 +1,89 @@
+-----------------------
+RSA Signatures
+-----------------------
+	compiles ---------- 00/05
+
+	Some files were not inlcuded properly:
+In file included from transaction.c:1:
+transaction.h:11:9: error: unknown type name ‘Key’
+   11 |         Key sender;
+      |         ^~~
+transaction.h:12:9: error: unknown type name ‘Key’
+   12 |         Key recipient;
+      |         ^~~
+transaction.h:17:1: error: unknown type name ‘NUM’
+   17 | NUM *signTransaction(Key *sender, Key recipient, float amount);
+      | ^~~
+transaction.h:17:22: error: unknown type name ‘Key’
+   17 | NUM *signTransaction(Key *sender, Key recipient, float amount);
+      |                      ^~~
+transaction.h:17:35: error: unknown type name ‘Key’
+   17 | NUM *signTransaction(Key *sender, Key recipient, float amount);
+      |                                   ^~~
+transaction.h:20:33: error: unknown type name ‘NUM’
+   20 | Transaction *decryptTransaction(NUM *transaction, Key sender);
+      |                                 ^~~
+transaction.h:20:51: error: unknown type name ‘Key’
+   20 | Transaction *decryptTransaction(NUM *transaction, Key sender);
+      |                                                   ^~~
+transaction.c:3:1: error: unknown type name ‘NUM’
+    3 | NUM *signTransaction(Key *sender, Key recipient, float amount) {
+      | ^~~
+transaction.c:3:22: error: unknown type name ‘Key’
+    3 | NUM *signTransaction(Key *sender, Key recipient, float amount) {
+      |                      ^~~
+transaction.c:3:35: error: unknown type name ‘Key’
+    3 | NUM *signTransaction(Key *sender, Key recipient, float amount) {
+      |                                   ^~~
+transaction.c:20:33: error: unknown type name ‘NUM’
+   20 | Transaction *decryptTransaction(NUM *transaction, Key sender) {
+      |                                 ^~~
+transaction.c:20:51: error: unknown type name ‘Key’
+   20 | Transaction *decryptTransaction(NUM *transaction, Key sender) {
+      |                                                   ^~~
+transaction.c: In function ‘printTransaction’:
+transaction.c:42:85: error: request for member ‘n’ in something not a structure or union
+   42 |  printf("Sender: %d, %d Recipient: %d, %d Amount: %f Timestamp: %d \n", t->sender.n, t->sender.c, t->recipient.n, t->recipient.c, t->amount, t->timestamp);
+      |                                                                                  ^
+
+transaction.c:42:98: error: request for member ‘c’ in something not a structure or union
+   42 | er: %d, %d Recipient: %d, %d Amount: %f Timestamp: %d \n", t->sender.n, t->sender.c, t->recipient.n, t->recipient.c, t->amount, t->timestamp);
+      |                                                                                  ^
+
+transaction.c:42:114: error: request for member ‘n’ in something not a structure or union
+   42 | ient: %d, %d Amount: %f Timestamp: %d \n", t->sender.n, t->sender.c, t->recipient.n, t->recipient.c, t->amount, t->timestamp);
+      |                                                                                  ^
+
+transaction.c:42:130: error: request for member ‘c’ in something not a structure or union
+   42 | unt: %f Timestamp: %d \n", t->sender.n, t->sender.c, t->recipient.n, t->recipient.c, t->amount, t->timestamp);
+      |                                                                                  ^
+
+	after I fixed the structure there is still a missing function: makeKey()
+gcc -c -g -Wall -w -pedantic transaction.c
+gcc -c -g -Wall -w -pedantic crypt.c
+crypt.c: In function ‘makeKeyPair’:
+crypt.c:8:18: error: incompatible types when assigning to type ‘Key’ from type ‘int’
+    8 |     keyPair[0] = makeKey();
+      |                  ^~~~~~~
+crypt.c:9:18: error: incompatible types when assigning to type ‘Key’ from type ‘int’
+    9 |     keyPair[1] = makeKey();
+      |                  ^~~~~~~
+make: *** [Makefile:14: crypt.o] Error 1
+
+	works ------------- 00/15
+		makeKeyPair-------- 0/2
+		CryptData --------- 0/1
+		printKey----------- 0/1
+		signTransaction---- 0/5
+		decryptTransaction- 0/5
+		printTransaction--- 0/1
+-----------------------
+	leak-proof -------- 00/00
+
+	notes
+
+-----------------------
+	
+-----------------------
+total ----------- 00/20  
+
