@@ -1,0 +1,10 @@
+securities = [
+    {'ticker': 'GOVT', 'coupon': 2.5, 'maturity_year': 2051, 'grade': 'investment', 'intent': 'long', 'quantity': 100},
+    {'ticker': 'MCD', 'coupon': 4.25, 'maturity_year': 2030, 'grade': 'investment', 'intent': 'short', 'quantity': 100},
+    {'ticker': 'PFE', 'coupon': 3.45, 'maturity_year': 2050, 'grade': 'investment', 'intent': 'long', 'quantity': 100},
+    {'ticker': 'NYGO', 'coupon': 5.25, 'maturity_year': 2030, 'grade': 'investment', 'intent': 'long', 'quantity': 100},
+    {'ticker': 'WMT', 'coupon': 2.1, 'maturity_year': 2050, 'grade': 'investment', 'intent': 'short', 'quantity': 100},
+    {'ticker': 'CSCO', 'coupon': 3.75, 'maturity_year': 2040, 'grade': 'investment', 'intent': 'long', 'quantity': 100},
+    {'ticker': 'CAT', 'coupon': 4.1, 'maturity_year': 2035, 'grade': 'junk', 'intent': 'long', 'quantity': 100},
+    {'ticker': 'AMZN', 'coupon': 2.9, 'maturity_year': 2045, 'grade': 'investment', 'intent': 'short', 'quantity': 100},
+]
